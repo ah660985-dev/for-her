@@ -3,10 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أنا آسف.. لوقتي وكل وقت 🤍</title>
+    <title>من قلبي لـ روضا 🤍</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
         
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
@@ -15,69 +19,138 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
+        /* شريط التقدم فوق */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            z-index: 10;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 25%;
+            background: #d90429;
+            transition: width 0.5s ease;
+        }
+
         .container {
-            max-width: 600px;
+            max-width: 550px;
+            width: 90%;
             background: rgba(255, 255, 255, 0.95);
-            margin: 40px 20px;
+            margin: 20px auto;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             text-align: center;
             z-index: 2;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInUp 1s ease forwards;
+            position: relative;
+        }
+
+        /* التحكم في الصفحات */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
             color: #d90429;
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin-bottom: 20px;
         }
 
         .message {
             color: #2b2d42;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             line-height: 1.8;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             white-space: pre-line;
+            font-weight: 500;
         }
 
-        /* ألبوم الصور */
+        /* ألبوم الصور الذكي */
         .gallery {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 15px;
             margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        /* لو الصفحة فيها صورتين يتقسموا جنب بعض */
+        .gallery.two-images {
+            grid-template-columns: 1fr 1fr;
         }
 
         .gallery img {
             width: 100%;
-            height: 250px; /* زودت الارتفاع شوية عشان الصور تبان أوضح */
+            height: 280px;
             object-fit: cover;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
         }
 
         .gallery img:hover {
-            transform: scale(1.05);
+            transform: scale(1.03);
         }
 
-        /* أنيميشن الظهور */
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* الأزرار */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
         }
 
-        /* قلوب متساقطة في الخلفية */
+        .btn {
+            background: #d90429;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+        }
+
+        .btn:hover {
+            background: #ef233c;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(217, 4, 41, 0.4);
+        }
+
+        .btn-prev {
+            background: #8d99ae;
+            box-shadow: 0 5px 15px rgba(141, 153, 174, 0.3);
+        }
+
+        .btn-prev:hover {
+            background: #adb5bd;
+            box-shadow: 0 7px 20px rgba(141, 153, 174, 0.4);
+        }
+
+        /* قلوب الخلفية */
         .heart {
             position: absolute;
             color: #ff4d6d;
@@ -88,39 +161,105 @@
         }
 
         @keyframes fall {
-            0% {
-                transform: translateY(-10vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(110vh) rotate(360deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- العنوان الرئيسي -->
-        <h1>متزعليش مني.. 🤍</h1>
-        
-        <!-- رسالتك (تقدر تمسح الكلام ده وتكتب أي كلام تاني بمزاجك في أي وقت) -->
-        <div class="message">
-            أنا آسف على أي حاجة زعلتك، ومقدرش على زعلك أبداً.
-            الدنيا مبتبقاش حلوة وأنتِ متغيرة معايا.
-            ربنا يخليكِ ليا وميحرمنيش منك ومن ضحكتك دايماً. ✨
-        </div>
-
-        <!-- ألبوم الصور الجاهز بالروابط الصحيحة -->
-        <div class="gallery">
-            <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى حلوة 1">
-            <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى حلوة 2">
-        </div>
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <!-- كود الأنيميشن الخاص بالقلوب المتساقطة -->
+    <div class="container">
+        
+        <!-- ================= الجزء الأول ================= -->
+        <div class="page active" id="page1">
+            <h1>وحشتيني.. 🤍</h1>
+            <div class="message">
+                وحشتيني اوي و وحشني كل حاجه عشتها معاكي..
+                وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
+                <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
+            </div>
+            <div class="btn-container">
+                <button class="btn" onclick="nextPage(2)">قلّبي الصفحة ✨</button>
+            </div>
+        </div>
+
+        <!-- ================= الجزء الثاني ================= -->
+        <div class="page" id="page2">
+            <h1>من كل قلبي.. 🙏</h1>
+            <div class="message">
+                عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.
+
+                بس زي ما قولتها قبل كده و هقولها تاني مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
+                عالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا.
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
+                <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
+                <button class="btn" onclick="nextPage(3)">التالي 🌟</button>
+            </div>
+        </div>
+
+        <!-- ================= الجزء الثالث ================= -->
+        <div class="page" id="page3">
+            <h1>فرصة واحدة.. ✨</h1>
+            <div class="message">
+                لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
+            </div>
+            <div class="gallery">
+                <!-- صورة واحدة فبتاخد المساحة كاملة وشكلها بيطلع أشيك -->
+                <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px;">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
+                <button class="btn" onclick="nextPage(4)">آخر صفحة 🌹</button>
+            </div>
+        </div>
+
+        <!-- ================= الجزء الرابع ================= -->
+        <div class="page" id="page4">
+            <h1>الوعد.. 👑❤️</h1>
+            <div class="message">
+                وعد مني كل ايامنا هتكون زي اليوم ده و احلى..
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
+                <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(3)">رجوع</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- كود التنقل والأنيميشن للقلوب -->
     <script>
+        function nextPage(pageNumber) {
+            // إخفاء كل الصفحات
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // إظهار الصفحة المطلوبة
+            document.getElementById('page' + pageNumber).classList.add('active');
+            
+            // تحديث شريط التقدم فوق
+            const progressPercent = (pageNumber / 4) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+        }
+
+        // تأثير القلوب المتساقطة
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart');
