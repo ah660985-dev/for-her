@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أنا آسف.. لوقتي وكل وقت 🤍</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 600px;
+            background: rgba(25px, 255, 255, 0.85);
+            background: white;
+            margin: 40px 20px;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 2;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        h1 {
+            color: #d90429;
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+        }
+
+        .message {
+            color: #2b2d42;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            white-space: pre-line; /* عشان يحافظ على السطور الفاضية اللي هتكتبها */
+        }
+
+        /* ألبوم الصور */
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* أنيميشن الظهور */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* قلوب متساقطة في الخلفية */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 1;
+            bottom: -20px;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-10vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- العنوان الرئيسي -->
+        <h1>متزعليش مني.. 🤍</h1>
+        
+        <!-- رسالتك (اكتب هنا اللي أنت عاوزه بمزاجك) -->
+        <div class="message">
+            هنا بتكتب الكلام اللي طالع من قلبك..
+            أنا آسف على أي حاجة زعلتك، ومقدرش على زعلك أبداً.
+            الدنيا مبتبقاش حلوة وأنتِ متغيرة معايا.
+            ربنا يخليكِ ليا وميحرمنيش منك ومن ضحكتك دايماً. ✨
+        </div>
+
+        <!-- ألبوم الصور (حط روابط صوركم هنا) -->
+        <div class="gallery">
+            <img src="https://ibb.co/RkdkFd72" alt="ذكرى حلوة">
+            <img src="https://ibb.co/zh6kqFf9" alt="ذكرى حلوة">
+            <!-- تقدر تزود صور تانية بنفس السطر لو تحب -->
+        </div>
+    </div>
+
+    <!-- كود الأنيميشن الخاص بالقلوب المتساقطة -->
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+
+</body>
+</html>
