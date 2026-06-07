@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>من قلبي لـ روضا 🤍</title>
+    <title>رحلة صلحنا.. لـ روضا ✨🤍</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Noto+Naskh+Arabic:wght@700&display=swap');
         
         * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
             font-family: 'Tajawal', sans-serif;
-            background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
+            background: radial-gradient(circle at center, #ffcbdc 0%, #ff85a1 100%);
             margin: 0;
             padding: 0;
             display: flex;
@@ -23,266 +24,299 @@
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
+            color: #2b2d42;
         }
 
-        /* شريط التقدم فوق */
-        .progress-container {
+        /* شريط تقدم مضيء كـ خط متصل */
+        .progress-line {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 6px;
-            background: #f0f0f0;
-            z-index: 100; /* أعلى من أي حاجة */
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            z-index: 100;
         }
 
         .progress-bar {
             height: 100%;
             width: 25%;
-            background: #d90429;
-            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* حركة أنعم */
+            background: #ffe5ec;
+            box-shadow: 0 0 15px #ffe5ec;
+            transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .container {
-            max-width: 550px;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.96);
-            margin: 20px auto;
-            padding: 30px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        /* حاوية الزجاج البلوري */
+        .premium-container {
+            width: 85%;
+            max-width: 480px;
+            background: rgba(255, 255, 255, 0.03); /* شفاف جداً */
+            backdrop-filter: blur(15px); /* تأثير الزجاج */
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 40px;
+            padding: 35px 25px;
+            box-shadow: 0 0 40px rgba(255, 255, 255, 0.1) inset, 0 10px 30px rgba(0,0,0,0.1);
             text-align: center;
-            z-index: 2;
+            z-index: 10;
             position: relative;
-            min-height: 400px; /* ضمان مساحة كافية للأنيميشن */
+            min-height: 480px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* التحكم في الصفحات - أنيميشن الدخول والخروج */
+        /* الصفحات بأنيميشن Silky Fade & Zoom */
         .page {
             display: none;
             opacity: 0;
-            position: absolute; /* مهم لتحويل ناعم */
-            width: calc(100% - 60px); /* تعويض الـ padding */
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transform: scale(1.03);
+            position: absolute;
+            width: calc(100% - 50px);
+            transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
 
         .page.active {
             display: block;
-            position: relative; /* يرجع مكانه الطبيعي */
+            position: relative;
             opacity: 1;
+            transform: scale(1);
         }
 
-        /* أنيميشن الدخول (Fade & Up) للعناوين والكلام */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* أنيميشن الدخول (Fade & Zoom) للصور */
-        @keyframes fadeInZoom {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
-        }
-
+        /* عناوين مزخرفة بالخط النسك */
         h1 {
+            font-family: 'Noto Naskh Arabic', serif;
             color: #d90429;
-            font-size: 2.1rem;
-            margin-bottom: 20px;
-            /* تطبيق أنيميشن الدخول للعناوين */
+            font-size: 2.3rem;
+            margin-bottom: 25px;
+            line-height: 1.4;
             opacity: 0;
-            animation: fadeInUp 0.8s 0.2s ease forwards;
+            animation: textAppear 1s 0.3s ease forwards;
+            text-shadow: 0 0 10px rgba(217, 4, 41, 0.2);
+        }
+
+        /* أنيميشن ظهور الكلام النعمة */
+        @keyframes textAppear {
+            from { opacity: 0; transform: translateY(10px); filter: blur(2px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
         }
 
         .message {
-            color: #2b2d42;
-            font-size: 1.25rem;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            white-space: pre-line;
-            font-weight: 500;
-            /* تطبيق أنيميشن الدخول للكلام */
+            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-bottom: 30px;
+            color: rgba(43, 45, 66, 0.9);
             opacity: 0;
-            animation: fadeInUp 0.8s 0.4s ease forwards;
+            animation: textAppear 1s 0.6s ease forwards;
         }
 
-        /* ألبوم الصور */
-        .gallery {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 20px;
-            margin-bottom: 25px;
-            /* تطبيق أنيميشن الدخول للألبوم ككل */
-            opacity: 0;
-            animation: fadeInZoom 1s 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        .gallery.two-images {
-            grid-template-columns: 1fr 1fr;
-        }
-
-        .gallery img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 18px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-        }
-
-        /* الأزرار */
-        .btn-container {
+        /* إطارات الصور الفنية غير المستطيلة */
+        .art-gallery {
             display: flex;
             justify-content: center;
             gap: 15px;
-            /* تطبيق أنيميشن الدخول للأزرار */
+            margin-bottom: 35px;
             opacity: 0;
-            animation: fadeInUp 0.8s 0.8s ease forwards;
+            animation: textAppear 1.2s 0.9s ease forwards;
         }
 
-        .btn {
-            background: #d90429;
-            color: white;
-            border: none;
-            padding: 12px 30px;
+        .art-frame {
+            border-radius: 40px; /* زوايا منحنية جداً */
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .art-frame:before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.02));
+            pointer-events: none;
+        }
+
+        .art-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* صورتان جنب بعض */
+        .art-frame.two-images {
+            width: calc(50% - 10px);
+            height: 190px;
+        }
+
+        /* صورة واحدة في المنتصف */
+        .art-frame.single-image {
+            width: 70%;
+            height: 280px;
+            margin: 0 auto;
+        }
+
+        .art-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* أزرار التحكم المخفية والشفافة في الأسفل */
+        .control-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            opacity: 0;
+            animation: textAppear 1s 1.2s ease forwards;
+        }
+
+        .premium-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #d90429;
+            padding: 10px 25px;
             font-size: 1.1rem;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: bold;
-            border-radius: 50px;
+            font-weight: 700;
+            border-radius: 30px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.02) inset;
+            transition: all 0.4s ease;
+            font-family: 'Tajawal', sans-serif;
             position: relative;
             overflow: hidden;
         }
 
-        /* أنيميشن نبض خفيف لزرار التالي */
-        @keyframes pulse {
-            0% { box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3); }
-            50% { box-shadow: 0 7px 25px rgba(217, 4, 41, 0.6); }
-            100% { box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3); }
+        /* أنيميشن نبض النور */
+        @keyframes subtlePulse {
+            0% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.02) inset, 0 0 5px rgba(255, 255, 255, 0.1); }
+            50% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.02) inset, 0 0 15px rgba(255, 255, 255, 0.2); }
+            100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.02) inset, 0 0 5px rgba(255, 255, 255, 0.1); }
         }
 
-        .btn-pulse {
-            animation: pulse 1.5s infinite;
+        .premium-btn.pulse {
+            animation: subtlePulse 1.8s infinite;
         }
 
-        .btn:hover {
-            background: #ef233c;
+        .premium-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            color: #ef233c;
             transform: translateY(-2px);
         }
 
-        .btn:active {
-            transform: translateY(0);
+        .premium-btn-prev {
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .btn-prev {
-            background: #8d99ae;
-            box-shadow: 0 5px 15px rgba(141, 153, 174, 0.3);
-        }
-
-        .btn-prev:hover {
-            background: #adb5bd;
-            box-shadow: 0 7px 20px rgba(141, 153, 174, 0.4);
-        }
-
-        /* قلوب الخلفية المتساقطة */
-        .heart {
+        /* جزيئات ضوئية بتلمع في الخلفية ببطء */
+        .sparkle {
             position: absolute;
-            color: #ff4d6d;
-            font-size: 20px;
-            animation: fall linear infinite;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0;
+            animation: sparkleFall linear infinite;
             z-index: 1;
-            bottom: -20px;
         }
 
-        @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        @keyframes sparkleFall {
+            0% { transform: translateY(-10px); opacity: 0; }
+            30% { opacity: 0.3; }
+            60% { opacity: 0.1; }
+            100% { transform: translateY(110vh); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
-    <!-- عنصر الصوت المخفي -->
+    <!-- عنصر الصوت -->
     <audio id="bgMusic" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- شريط التقدم -->
-    <div class="progress-container">
+    <!-- شريط تقدم كـ خط مضيء -->
+    <div class="progress-line">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="container" id="container">
+    <div class="premium-container">
         
         <!-- ================= الجزء الأول ================= -->
         <div class="page active" id="page1">
-            <h1>وحشتيني.. 🤍</h1>
+            <h1>وحشتيني.. 🙏🤍</h1>
             <div class="message">
                 وحشتيني اوي و وحشني كل حاجه عشتها معاكي..
                 وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.
             </div>
-            <div class="gallery two-images">
-                <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
-                <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
+            <div class="art-gallery">
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
+                </div>
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
+                </div>
             </div>
-            <div class="btn-container">
-                <button class="btn btn-pulse" onclick="nextPage(2)">قلّبي الصفحة ✨</button>
+            <div class="control-panel">
+                <button class="premium-btn pulse" onclick="nextPage(2)">قلّبي الصفحة.. ✨</button>
             </div>
         </div>
 
         <!-- ================= الجزء الثاني ================= -->
         <div class="page" id="page2">
-            <h1>من كل قلبي.. 🙏</h1>
+            <h1>من كل قلبي.. 👑🌹</h1>
             <div class="message">
                 عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.
 
-                بس زي ما قولتها قبل كده و هقولها تاني مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
+                مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
                 عالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا.
             </div>
-            <div class="gallery two-images">
-                <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
-                <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
+            <div class="art-gallery">
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
+                </div>
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
+                </div>
             </div>
-            <div class="btn-container">
-                <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
-                <button class="btn btn-pulse" onclick="nextPage(3)">التالي 🌟</button>
+            <div class="control-panel">
+                <button class="premium-btn premium-btn-prev" onclick="nextPage(1)">رجوع</button>
+                <button class="premium-btn pulse" onclick="nextPage(3)">التالي.. 🌟</button>
             </div>
         </div>
 
         <!-- ================= الجزء الثالث ================= -->
         <div class="page" id="page3">
-            <h1>فرصة واحدة.. ✨</h1>
+            <h1>فرصة واحدة.. ✨🕊️</h1>
             <div class="message">
                 لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
             </div>
-            <div class="gallery">
-                <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px;">
+            <div class="art-gallery">
+                <div class="art-frame single-image">
+                    <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5">
+                </div>
             </div>
-            <div class="btn-container">
-                <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
-                <button class="btn btn-pulse" onclick="nextPage(4)">آخر صفحة 🌹</button>
+            <div class="control-panel">
+                <button class="premium-btn premium-btn-prev" onclick="nextPage(2)">رجوع</button>
+                <button class="premium-btn pulse" onclick="nextPage(4)">آخر صفحة.. 🌹</button>
             </div>
         </div>
 
         <!-- ================= الجزء الرابع ================= -->
         <div class="page" id="page4">
-            <h1>الوعد.. 👑❤️</h1>
+            <h1>وعد مني.. ⭐🤍✨</h1>
             <div class="message">
                 وعد مني كل ايامنا هتكون زي اليوم ده و احلى..
             </div>
-            <div class="gallery two-images">
-                <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
-                <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
+            <div class="art-gallery">
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
+                </div>
+                <div class="art-frame two-images">
+                    <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
+                </div>
             </div>
-            <div class="btn-container">
-                <button class="btn btn-prev" onclick="nextPage(3)">رجوع</button>
+            <div class="control-panel">
+                <button class="premium-btn premium-btn-prev" onclick="nextPage(3)">رجوع</button>
             </div>
         </div>
 
@@ -291,39 +325,38 @@
     <script>
         let currentPage = 1;
 
-        // وظيفة التنقل بين الصفحات بأنيميشن
+        // وظيفة التنقل بين الصفحات بأنيميشن Silky
         function nextPage(nextPageNumber) {
             const audio = document.getElementById('bgMusic');
             if (audio.paused) {
-                audio.play().catch(error => console.log("Audio play blocked: ", error));
+                audio.play().catch(error => console.log("Audio play blocked"));
             }
 
             const current = document.getElementById('page' + currentPage);
             const next = document.getElementById('page' + nextPageNumber);
-            const container = document.getElementById('container');
 
-            // أنيميشن خروج الصفحة الحالية
+            // أنيميشن خروج الصفحة الحالية (Fade Out and subtle scale up)
             current.style.opacity = '0';
-            current.style.transform = 'translateY(-15px)'; // تطلع لفوق سنة وتختفي
+            current.style.transform = 'scale(1.05)'; 
 
             setTimeout(() => {
                 current.classList.remove('active');
-                current.style.transform = ''; // إعادة تعيين الـ transform
+                current.style.transform = ''; 
 
                 // تحضير الصفحة الجديدة للدخول
                 next.classList.add('active');
                 next.style.opacity = '0';
-                next.style.transform = 'translateY(15px)'; // تبدأ من تحت سنة
+                next.style.transform = 'scale(0.95)'; // تبدأ أصغر سنة
                 
-                // أنيميشن دخول الصفحة الجديدة
+                // أنيميشن دخول الصفحة الجديدة (Fade In and back to size)
                 setTimeout(() => {
                     next.style.opacity = '1';
-                    next.style.transform = 'translateY(0)';
-                }, 50); // تأخير بسيط جداً لبدء أنيميشن الدخول
+                    next.style.transform = 'scale(1)';
+                }, 50); 
 
                 currentPage = nextPageNumber;
                 updateProgress(nextPageNumber);
-            }, 600); // نفس وقت الترانزيشن (0.6s)
+            }, 800); 
         }
 
         function updateProgress(pageNumber) {
@@ -331,21 +364,21 @@
             document.getElementById('progressBar').style.width = progressPercent + '%';
         }
 
-        // تأثير القلوب المتساقطة
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            document.body.appendChild(heart);
+        // جزيئات ضوئية بتلمع في الخلفية
+        function createSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.classList.add('sparkle');
+            sparkle.style.left = Math.random() * 100 + 'vw';
+            sparkle.style.width = sparkle.style.height = Math.random() * 5 + 3 + 'px'; // أحجام مختلفة
+            sparkle.style.animationDuration = Math.random() * 3 + 2 + 's';
+            sparkle.style.background = `rgba(255, 255, 255, ${Math.random() * 0.4 + 0.3})`; // لمعان مختلف
+            document.body.appendChild(sparkle);
             
             setTimeout(() => {
-                heart.remove();
+                sparkle.remove();
             }, 5000);
         }
-        setInterval(createHeart, 300);
+        setInterval(createSparkle, 150);
     </script>
 
 </body>
