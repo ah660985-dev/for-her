@@ -33,20 +33,20 @@
             width: 100%;
             height: 6px;
             background: #f0f0f0;
-            z-index: 10;
+            z-index: 100; /* أعلى من أي حاجة */
         }
 
         .progress-bar {
             height: 100%;
             width: 25%;
             background: #d90429;
-            transition: width 0.5s ease;
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1); /* حركة أنعم */
         }
 
         .container {
             max-width: 550px;
             width: 90%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.96);
             margin: 20px auto;
             padding: 30px;
             border-radius: 25px;
@@ -54,27 +54,43 @@
             text-align: center;
             z-index: 2;
             position: relative;
+            min-height: 400px; /* ضمان مساحة كافية للأنيميشن */
         }
 
-        /* التحكم في الصفحات */
+        /* التحكم في الصفحات - أنيميشن الدخول والخروج */
         .page {
             display: none;
+            opacity: 0;
+            position: absolute; /* مهم لتحويل ناعم */
+            width: calc(100% - 60px); /* تعويض الـ padding */
+            transition: opacity 0.6s ease, transform 0.6s ease;
         }
 
         .page.active {
             display: block;
-            animation: fadeIn 0.8s ease forwards;
+            position: relative; /* يرجع مكانه الطبيعي */
+            opacity: 1;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+        /* أنيميشن الدخول (Fade & Up) للعناوين والكلام */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* أنيميشن الدخول (Fade & Zoom) للصور */
+        @keyframes fadeInZoom {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         h1 {
             color: #d90429;
-            font-size: 2rem;
+            font-size: 2.1rem;
             margin-bottom: 20px;
+            /* تطبيق أنيميشن الدخول للعناوين */
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.2s ease forwards;
         }
 
         .message {
@@ -84,18 +100,23 @@
             margin-bottom: 25px;
             white-space: pre-line;
             font-weight: 500;
+            /* تطبيق أنيميشن الدخول للكلام */
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.4s ease forwards;
         }
 
-        /* ألبوم الصور الذكي */
+        /* ألبوم الصور */
         .gallery {
             display: grid;
             grid-template-columns: 1fr;
             gap: 15px;
             margin-top: 20px;
             margin-bottom: 25px;
+            /* تطبيق أنيميشن الدخول للألبوم ككل */
+            opacity: 0;
+            animation: fadeInZoom 1s 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
 
-        /* لو الصفحة فيها صورتين يتقسموا جنب بعض */
         .gallery.two-images {
             grid-template-columns: 1fr 1fr;
         }
@@ -106,11 +127,12 @@
             object-fit: cover;
             border-radius: 18px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .gallery img:hover {
             transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
 
         /* الأزرار */
@@ -118,6 +140,9 @@
             display: flex;
             justify-content: center;
             gap: 15px;
+            /* تطبيق أنيميشن الدخول للأزرار */
+            opacity: 0;
+            animation: fadeInUp 0.8s 0.8s ease forwards;
         }
 
         .btn {
@@ -132,12 +157,28 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* أنيميشن نبض خفيف لزرار التالي */
+        @keyframes pulse {
+            0% { box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3); }
+            50% { box-shadow: 0 7px 25px rgba(217, 4, 41, 0.6); }
+            100% { box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3); }
+        }
+
+        .btn-pulse {
+            animation: pulse 1.5s infinite;
         }
 
         .btn:hover {
             background: #ef233c;
             transform: translateY(-2px);
-            box-shadow: 0 7px 20px rgba(217, 4, 41, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-prev {
@@ -150,7 +191,7 @@
             box-shadow: 0 7px 20px rgba(141, 153, 174, 0.4);
         }
 
-        /* قلوب الخلفية */
+        /* قلوب الخلفية المتساقطة */
         .heart {
             position: absolute;
             color: #ff4d6d;
@@ -168,12 +209,17 @@
 </head>
 <body>
 
+    <!-- عنصر الصوت المخفي -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
     <!-- شريط التقدم -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="container">
+    <div class="container" id="container">
         
         <!-- ================= الجزء الأول ================= -->
         <div class="page active" id="page1">
@@ -187,7 +233,7 @@
                 <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
             </div>
             <div class="btn-container">
-                <button class="btn" onclick="nextPage(2)">قلّبي الصفحة ✨</button>
+                <button class="btn btn-pulse" onclick="nextPage(2)">قلّبي الصفحة ✨</button>
             </div>
         </div>
 
@@ -206,7 +252,7 @@
             </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
-                <button class="btn" onclick="nextPage(3)">التالي 🌟</button>
+                <button class="btn btn-pulse" onclick="nextPage(3)">التالي 🌟</button>
             </div>
         </div>
 
@@ -217,12 +263,11 @@
                 لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
             </div>
             <div class="gallery">
-                <!-- صورة واحدة فبتاخد المساحة كاملة وشكلها بيطلع أشيك -->
                 <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px;">
             </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
-                <button class="btn" onclick="nextPage(4)">آخر صفحة 🌹</button>
+                <button class="btn btn-pulse" onclick="nextPage(4)">آخر صفحة 🌹</button>
             </div>
         </div>
 
@@ -243,18 +288,45 @@
 
     </div>
 
-    <!-- كود التنقل والأنيميشن للقلوب -->
     <script>
-        function nextPage(pageNumber) {
-            // إخفاء كل الصفحات
-            document.querySelectorAll('.page').forEach(page => {
-                page.classList.remove('active');
-            });
-            
-            // إظهار الصفحة المطلوبة
-            document.getElementById('page' + pageNumber).classList.add('active');
-            
-            // تحديث شريط التقدم فوق
+        let currentPage = 1;
+
+        // وظيفة التنقل بين الصفحات بأنيميشن
+        function nextPage(nextPageNumber) {
+            const audio = document.getElementById('bgMusic');
+            if (audio.paused) {
+                audio.play().catch(error => console.log("Audio play blocked: ", error));
+            }
+
+            const current = document.getElementById('page' + currentPage);
+            const next = document.getElementById('page' + nextPageNumber);
+            const container = document.getElementById('container');
+
+            // أنيميشن خروج الصفحة الحالية
+            current.style.opacity = '0';
+            current.style.transform = 'translateY(-15px)'; // تطلع لفوق سنة وتختفي
+
+            setTimeout(() => {
+                current.classList.remove('active');
+                current.style.transform = ''; // إعادة تعيين الـ transform
+
+                // تحضير الصفحة الجديدة للدخول
+                next.classList.add('active');
+                next.style.opacity = '0';
+                next.style.transform = 'translateY(15px)'; // تبدأ من تحت سنة
+                
+                // أنيميشن دخول الصفحة الجديدة
+                setTimeout(() => {
+                    next.style.opacity = '1';
+                    next.style.transform = 'translateY(0)';
+                }, 50); // تأخير بسيط جداً لبدء أنيميشن الدخول
+
+                currentPage = nextPageNumber;
+                updateProgress(nextPageNumber);
+            }, 600); // نفس وقت الترانزيشن (0.6s)
+        }
+
+        function updateProgress(pageNumber) {
             const progressPercent = (pageNumber / 4) * 100;
             document.getElementById('progressBar').style.width = progressPercent + '%';
         }
