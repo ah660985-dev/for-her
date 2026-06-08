@@ -3,85 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اخر محاولة للرجوع للحياه 🤍</title>
+    <title>من قلبي لـ روضا 🤍</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
-        * { box-sizing: border-box; }
-        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%); margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+        
+        * {
+            box-sizing: border-box;
+        }
 
-        /* Welcome Screen */
-        #welcomeScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 500; transition: opacity 0.8s ease; }
-        .heart-btn { font-size: 5rem; cursor: pointer; animation: beat 1.2s infinite; }
-        @keyframes beat { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15); } }
-        .click-hint { color: #8d99ae; font-size: 1.2rem; margin-top: 20px; font-weight: 600; text-transform: uppercase; }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
 
-        /* Main Container */
-        .container { max-width: 550px; width: 90%; background: rgba(255, 255, 255, 0.96); padding: 30px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center; }
-        .page { display: none; }
-        .page.active { display: block; }
-        .message { color: #2b2d42; font-size: 1.25rem; line-height: 1.8; margin: 20px 0; }
-        .nav-icon { font-size: 2.5rem; cursor: pointer; display: inline-block; transition: transform 0.3s; margin-top: 20px; }
-        .nav-icon:hover { transform: scale(1.1); }
-        .btn-forgive { background: #d90429; color: white; padding: 15px 40px; border-radius: 50px; border: none; cursor: pointer; font-weight: bold; font-size: 1.25rem; margin-top: 20px; }
+        /* شريط التقدم فوق */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            z-index: 100;
+        }
 
-        /* Modal */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 600; align-items: center; justify-content: center; }
-        .modal-card { width: 90%; max-width: 400px; text-align: center; }
-        .modal-card img { width: 100%; border-radius: 20px; }
-        .close-modal { cursor: pointer; font-size: 2rem; color: white; margin-top: 20px; }
+        .progress-bar {
+            height: 100%;
+            width: 25%;
+            background: #d90429;
+            transition: width 0.6s ease;
+        }
+
+        .container {
+            max-width: 550px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.96);
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 2;
+            position: relative;
+            min-height: 400px;
+        }
+
+        /* التحكم في الصفحات - أنيميشن */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .message {
+            color: #2b2d42;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            white-space: pre-line;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        /* ألبوم الصور */
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .gallery.two-images {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        /* الأزرار والتحكم */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            background: #d90429;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+        }
+
+        .btn:hover {
+            background: #ef233c;
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background: #8d99ae;
+            box-shadow: 0 5px 15px rgba(141, 153, 174, 0.3);
+        }
+
+        .btn-prev:hover {
+            background: #adb5bd;
+        }
+
+        /* تنسيق السهم والقلب كزر انتقال */
+        .nav-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #d90429;
+            transition: transform 0.3s ease;
+            margin: 20px auto 0;
+            filter: drop-shadow(0 0 5px rgba(217, 4, 41, 0.5));
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1) translateX(-5px);
+        }
+
+        /* قلوب الخلفية المتساقطة */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 1;
+            bottom: -20px;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="welcomeScreen" onclick="startExperience()">
-        <div class="heart-btn">❤️</div>
-        <div class="click-hint">Tap to open</div>
-    </div>
-
+    <!-- عنصر الصوت المحدث بقيمة تجنب الكاش -->
     <audio id="bgMusic" loop preload="auto">
         <source src="our-song.mp3" type="audio/mpeg">
     </audio>
 
-    <div class="container">
-        <div class="page active" id="page1">
-            <div class="message">وحشتيني اوي و وحشني كل حاجه عشتها معاكي..</div>
-            <div class="nav-icon" onclick="nextPage(2)">🤍</div>
-        </div>
-        <div class="page" id="page2">
-            <div class="message">عارف اني اذيتك بس والله مكنش بقصد..</div>
-            <div class="nav-icon" onclick="nextPage(3)">🤍</div>
-        </div>
-        <div class="page" id="page3">
-            <div class="message">مستعد اصالح روضا اللي حبتها زمان دي..</div>
-            <div class="nav-icon" onclick="nextPage(4)">🤍</div>
-        </div>
-        <div class="page" id="page4">
-            <div class="message">وعد مني كل ايامنا هتكون زي اليوم ده و احلى..</div>
-            <button class="btn-forgive" onclick="showModal()">موافقه؟ ❤️</button>
-        </div>
+    <!-- شريط التقدم -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
     </div>
 
-    <div class="modal-overlay" id="forgiveModal">
-        <div class="modal-card">
-            <img src="https://i.ibb.co/PZVYPj6N/716189897-1030720482715349-1905136625468873606-n.jpg" alt="حب">
-            <div class="close-modal" onclick="closeModal()">🤍</div>
+    <div class="container" id="container">
+        
+        <!-- ================= الجزء الأول ================= -->
+        <div class="page active" id="page1">
+            <div class="message">
+                وحشتيني اوي و وحشني كل حاجه عشتها معاكي..
+                وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
+                <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
+            </div>
+            <div class="nav-icon" onclick="nextPage(2)">
+                <span>←</span>
+                <span>🤍</span>
+            </div>
         </div>
+
+        <!-- ================= الجزء الثاني ================= -->
+        <div class="page" id="page2">
+            <div class="message">
+                عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.
+
+                مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
+                عالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا.
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
+                <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
+                <div class="nav-icon" onclick="nextPage(3)" style="margin: 0;">
+                    <span>←</span>
+                    <span>🤍</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= الجزء الثالث ================= -->
+        <div class="page" id="page3">
+            <div class="message">
+                لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
+            </div>
+            <div class="gallery">
+                <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px; margin: 0 auto;">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
+                <div class="nav-icon" onclick="nextPage(4)" style="margin: 0;">
+                    <span>←</span>
+                    <span>🤍</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= الجزء الرابع ================= -->
+        <div class="page" id="page4">
+            <div class="message">
+                وعد مني كل ايامنا هتكون زي اليوم ده و احلى..
+            </div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
+                <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(3)">رجوع</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
         let currentPage = 1;
-        function startExperience() {
-            document.getElementById('bgMusic').play();
-            document.getElementById('welcomeScreen').style.opacity = '0';
-            setTimeout(() => document.getElementById('welcomeScreen').style.display = 'none', 800);
+        let musicStarted = false;
+
+        function nextPage(nextPageNumber) {
+            if (!musicStarted) {
+                const audio = document.getElementById('bgMusic');
+                
+                // إضافة متغير عشوائي في نهاية المسار لمنع كاش المتصفح القديم
+                audio.src = 'our-song.mp3?v=' + Math.random(); 
+                audio.load();
+
+                audio.play().then(() => {
+                    musicStarted = true;
+                    console.log("الموسيقى تعمل بنجاح!");
+                }).catch(error => {
+                    console.error("فشل تشغيل الصوت: ", error);
+                    alert("برجاء التأكد من رفع ملف 'our-song.mp3' في نفس الفولدر الرئيسي على جيتهاب.");
+                });
+            }
+
+            const current = document.getElementById('page' + currentPage);
+            const next = document.getElementById('page' + nextPageNumber);
+
+            current.classList.remove('active');
+
+            setTimeout(() => {
+                next.classList.add('active');
+                currentPage = nextPageNumber;
+                updateProgress(nextPageNumber);
+            }, 50); 
         }
-        function nextPage(n) {
-            document.getElementById('page' + currentPage).classList.remove('active');
-            currentPage = n;
-            document.getElementById('page' + currentPage).classList.add('active');
+
+        function updateProgress(pageNumber) {
+            const progressPercent = (pageNumber / 4) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
         }
-        function showModal() { document.getElementById('forgiveModal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('forgiveModal').style.display = 'none'; }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }
+        setInterval(createHeart, 300);
     </script>
+
 </body>
 </html>
