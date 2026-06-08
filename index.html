@@ -207,7 +207,7 @@
             background: #adb5bd;
         }
 
-        /* زرار المسامحة المميز */
+        /* زرار الموافقة المميز */
         .btn-forgive {
             background: linear-gradient(45deg, #ff4d6d, #ff758f);
             color: white;
@@ -242,9 +242,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 300;
             align-items: center;
             justify-content: center;
@@ -258,13 +258,13 @@
         }
 
         .modal-card {
-            background: white;
-            padding: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
             border-radius: 25px;
             max-width: 450px;
             width: 85%;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
             position: relative;
             transform: scale(0.8);
             transition: transform 0.5s ease;
@@ -274,42 +274,31 @@
             transform: scale(1);
         }
 
-        .modal-card h2 {
-            color: #d90429;
-            margin-top: 0;
-            font-size: 1.6rem;
-        }
-
-        .modal-card p {
-            font-size: 1.1rem;
-            color: #2b2d42;
-            line-height: 1.6;
-        }
-
         .modal-card img {
             width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-radius: 15px;
-            margin-top: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: auto;
+            max-height: 65vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
         }
 
         .close-modal {
-            background: #8d99ae;
+            background: #ff4d6d;
             color: white;
             border: none;
             padding: 8px 25px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             border-radius: 50px;
             cursor: pointer;
-            margin-top: 20px;
+            margin-top: 15px;
             font-family: 'Tajawal', sans-serif;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, transform 0.2s ease;
         }
 
         .close-modal:hover {
-            background: #2b2d42;
+            background: #ff758f;
+            transform: scale(1.05);
         }
 
         /* تنسيق السهم والقلب كزر انتقال */
@@ -432,9 +421,9 @@
                 <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
             </div>
 
-            <!-- زرار المسامحة الذكي -->
+            <!-- زرار الموافقة الذكي -->
             <div style="margin-top: 10px; margin-bottom: 25px;">
-                <button class="btn-forgive" onclick="showForgiveness()">مسمحاكي؟ 🥺❤️</button>
+                <button class="btn-forgive" onclick="showForgiveness()">موافقه؟ 🥺❤️</button>
             </div>
 
             <div class="btn-container">
@@ -444,18 +433,13 @@
 
     </div>
 
-    <!-- نافذة بوب آب لرسالة الصلح والمسامحة -->
+    <!-- نافذة بوب آب لرسالة الصلح والمسامحة (تعرض الصورة فقط وبدون أي نصوص) -->
     <div class="modal-overlay" id="forgiveModal">
         <div class="modal-card">
-            <h2>يا روحي! 😭❤️❤️</h2>
-            <p>أنا بجد أسعد واحد في الدنيا دي كلها بوجودك في حياتي.. وعد مني هشيلك جوه عيوني ومش هزعلك تاني أبداً!</p>
-            
-            <!-- حط هنا رابط الصورة اللي عاوزها تظهر لما تضغط على "مسمحاكِ" -->
-            <!-- الصورة الحالية هي صورة مؤقتة شيك جداً، تقدر تغير الرابط بأي صورة من صوركم -->
-            <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="حب وفرحة">
-            
+            <!-- الصورة المطلوبة بدون أي نصوص عليها -->
+            <img src="https://i.ibb.co/PZVYPj6N/716189897-1030720482715349-1905136625468873606-n.jpg" alt="موافقة">
             <br>
-            <button class="close-modal" onclick="closeForgiveness()">بحبك 🤍</button>
+            <button class="close-modal" onclick="closeForgiveness()">🤍</button>
         </div>
     </div>
 
