@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسالة خاصة لـ روضا 🤍</title>
+    <title>من قلبي لـ روضا 🤍</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
         
@@ -31,77 +31,106 @@
         .page { display: none; opacity: 0; transition: opacity 0.6s ease; }
         .page.active { display: block; opacity: 1; }
 
-        .message { color: #2b2d42; font-size: 1.3rem; line-height: 1.8; margin-bottom: 25px; font-weight: 500; }
+        .message { color: #2b2d42; font-size: 1.25rem; line-height: 1.8; margin-bottom: 25px; white-space: pre-line; font-weight: 500; margin-top: 20px; }
 
-        .btn {
-            background: #d90429; color: white; border: none; padding: 15px 40px;
-            font-size: 1.2rem; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
-        }
+        .gallery { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; margin-bottom: 25px; }
+        .gallery.two-images { grid-template-columns: 1fr 1fr; }
+        .gallery img { width: 100%; height: 280px; object-fit: cover; border-radius: 18px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
 
-        .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .gallery img { width: 100%; height: 250px; object-fit: cover; border-radius: 18px; }
+        .btn-container { display: flex; justify-content: center; gap: 15px; align-items: center; }
+        .btn { background: #d90429; color: white; border: none; padding: 12px 30px; font-size: 1.1rem; font-family: 'Tajawal', sans-serif; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
+        .btn-prev { background: #8d99ae; }
+
+        .nav-icon { font-size: 2.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; color: #d90429; transition: transform 0.3s ease; margin: 20px auto 0; }
+        
+        /* تصميم صفحة الترحيب */
+        #welcomePage { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; }
+        .tap-btn { font-size: 3rem; cursor: pointer; margin-bottom: 10px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
         .heart { position: absolute; color: #ff4d6d; font-size: 20px; animation: fall linear infinite; z-index: 1; }
-        @keyframes fall { 0% { transform: translateY(-10vh); } 100% { transform: translateY(110vh); } }
+        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop preload="auto"><source src="our-song.mp3" type="audio/mpeg"></audio>
-
     <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
 
-    <div class="container">
+    <div class="container" id="container">
         <!-- صفحة الترحيب -->
         <div class="page active" id="welcomePage">
-            <div style="font-size: 4rem; margin-top: 50px;">🤍</div>
-            <h2 style="color: #d90429;">روضـا..</h2>
-            <button class="btn" onclick="startExperience()" style="margin-top: 30px;">Tap to open</button>
+            <div class="tap-btn" onclick="startApp()">❤️</div>
+            <p>Tap to open</p>
         </div>
 
-        <!-- الصفحات -->
+        <!-- الجزء الأول -->
         <div class="page" id="page1">
-            <div class="message">وحشتيني اوي و وحشني كل حاجه عشتها معاكي..</div>
-            <div class="gallery"><img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg"><img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg"></div>
-            <button class="btn" onclick="nextPage(2)">التالي</button>
+            <div class="message">وحشتيني اوي و وحشني كل حاجه عشتها معاكي.. وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.</div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
+                <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
+            </div>
+            <div class="nav-icon" onclick="nextPage(2)"><span>←</span><span>🤍</span></div>
         </div>
 
-        <!-- بقية الصفحات كما في كودك الأصلي -->
+        <!-- الجزء الثاني -->
         <div class="page" id="page2">
-            <div class="message">عارف اني اذيتك.. مستعد احاول طوول العمر عشان تسامحيني.</div>
-            <button class="btn" onclick="nextPage(3)">التالي</button>
+            <div class="message">عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده. مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني.. عالاقل اطلع قد كل الوعود اللي اديتهالك.</div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
+                <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
+            </div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
+                <div class="nav-icon" onclick="nextPage(3)" style="margin: 0;"><span>←</span><span>🤍</span></div>
+            </div>
         </div>
 
+        <!-- الجزء الثالث -->
         <div class="page" id="page3">
-            <div class="message">لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان..</div>
-            <button class="btn" onclick="nextPage(4)">موافقه؟ ❤️</button>
+            <div class="message">لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..</div>
+            <div class="gallery"><img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px; margin: 0 auto;"></div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
+                <div class="nav-icon" onclick="nextPage(4)" style="margin: 0;"><span>←</span><span>🤍</span></div>
+            </div>
+        </div>
+
+        <!-- الجزء الرابع -->
+        <div class="page" id="page4">
+            <div class="message">وعد مني كل ايامنا هتكون زي اليوم ده و احلى..</div>
+            <div class="gallery two-images">
+                <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
+                <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
+            </div>
+            <div class="btn-container"><button class="btn btn-prev" onclick="nextPage(3)">رجوع</button></div>
         </div>
     </div>
 
     <script>
-        function startExperience() {
+        let currentPage = 0;
+        function startApp() {
             const audio = document.getElementById('bgMusic');
             audio.play();
             document.getElementById('welcomePage').classList.remove('active');
-            document.getElementById('page1').classList.add('active');
-            document.getElementById('progressBar').style.width = '25%';
+            nextPage(1);
         }
-
         function nextPage(n) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById('page' + n).classList.add('active');
+            currentPage = n;
             document.getElementById('progressBar').style.width = (n * 25) + '%';
         }
-
-        setInterval(() => {
-            const h = document.createElement('div');
-            h.classList.add('heart'); h.innerHTML = '❤️';
-            h.style.left = Math.random() * 100 + 'vw';
-            h.style.animationDuration = Math.random() * 3 + 2 + 's';
-            document.body.appendChild(h);
-            setTimeout(() => h.remove(), 5000);
-        }, 300);
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart'); heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 5000);
+        }
+        setInterval(createHeart, 300);
     </script>
 </body>
 </html>
