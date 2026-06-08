@@ -78,7 +78,6 @@
             margin-bottom: 25px;
             white-space: pre-line;
             font-weight: 500;
-            /* إضافة حاشية علوية لتعويض غياب العنوان */
             margin-top: 20px;
         }
 
@@ -141,7 +140,7 @@
 
         /* تنسيق السهم والقلب كزر انتقال */
         .nav-icon {
-            font-size: 2rem;
+            font-size: 2.5rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -150,12 +149,11 @@
             color: #d90429;
             transition: transform 0.3s ease;
             margin: 20px auto 0;
-            /* تأثير إضاءة خفيف */
             filter: drop-shadow(0 0 5px rgba(217, 4, 41, 0.5));
         }
 
         .nav-icon:hover {
-            transform: scale(1.1) translateX(-5px); /* حركة لليسار مع السهم */
+            transform: scale(1.1) translateX(-5px);
         }
 
         /* قلوب الخلفية المتساقطة */
@@ -176,9 +174,10 @@
 </head>
 <body>
 
-    <!-- عنصر الصوت المخفي -->
+    <!-- عنصر الصوت المخفي: تأكد من اسم ملف الأغنية هنا -->
     <audio id="bgMusic" loop>
-        <source src="music.mp3" type="audio/mpeg">
+        <source src="our-song.mp3" type="audio/mpeg">
+        متصفحك لا يدعم تشغيل الصوت.
     </audio>
 
     <!-- شريط التقدم -->
@@ -198,10 +197,10 @@
                 <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
                 <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
             </div>
-            <!-- زر الانتقال: سهم وقلب -->
+            <!-- زر الانتقال: سهم وقلب (سيشغل الموسيقى مع أول ضغطة) -->
             <div class="nav-icon" onclick="nextPage(2)">
-                <span>🤍</span>
                 <span>←</span>
+                <span>🤍</span>
             </div>
         </div>
 
@@ -219,10 +218,9 @@
             </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
-                <!-- زر الانتقال: سهم وقلب -->
                 <div class="nav-icon" onclick="nextPage(3)" style="margin: 0;">
-                    <span>🤍</span>
                     <span>←</span>
+                    <span>🤍</span>
                 </div>
             </div>
         </div>
@@ -237,10 +235,9 @@
             </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
-                <!-- زر الانتقال: سهم وقلب -->
                 <div class="nav-icon" onclick="nextPage(4)" style="margin: 0;">
-                    <span>🤍</span>
                     <span>←</span>
+                    <span>🤍</span>
                 </div>
             </div>
         </div>
@@ -263,11 +260,18 @@
 
     <script>
         let currentPage = 1;
+        let musicStarted = false; // متغير للتأكد من تشغيل الموسيقى مرة واحدة فقط
 
         function nextPage(nextPageNumber) {
-            const audio = document.getElementById('bgMusic');
-            if (audio.paused) {
-                audio.play().catch(error => console.log("Audio play blocked"));
+            // تشغيل الموسيقى مع أول ضغطة زرار فقط
+            if (!musicStarted) {
+                const audio = document.getElementById('bgMusic');
+                audio.play().then(() => {
+                    musicStarted = true;
+                }).catch(error => {
+                    console.log("Audio play blocked: ", error);
+                    // في حال حجب المتصفح للصوت، سنحاول التشغيل مرة أخرى في الضغطة القادمة
+                });
             }
 
             const current = document.getElementById('page' + currentPage);
@@ -281,7 +285,7 @@
                 next.classList.add('active');
                 currentPage = nextPageNumber;
                 updateProgress(nextPageNumber);
-            }, 50); // تأخير بسيط لضمان سلاسة الأنيميشن
+            }, 50); 
         }
 
         function updateProgress(pageNumber) {
