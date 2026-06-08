@@ -3,9 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>من قلبي لـ روضا 🤍</title>
+    
+    <!-- العنوان الرئيسي الذي سيظهر في المتصفح وعند مشاركة الرابط -->
+    <title>اخر محاولة للرجوع للحياه 🤍</title>
+    
+    <!-- وسوم مشاركة الرابط على السوشيال ميديا والواتساب لضمان ظهور الاسم الجديد -->
+    <meta property="og:title" content="اخر محاولة للرجوع للحياه 🤍">
+    <meta property="og:description" content="من قلبي لـ روضا ✨">
+    <meta property="og:type" content="website">
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght=400;700&display=swap');
         
         * {
             box-sizing: border-box;
@@ -174,7 +182,7 @@
 </head>
 <body>
 
-    <!-- عنصر الصوت المحدث بقيمة تجنب الكاش -->
+    <!-- عنصر الصوت المخفي: تأكد من اسم ملف الأغنية هنا -->
     <audio id="bgMusic" loop preload="auto">
         <source src="our-song.mp3" type="audio/mpeg">
     </audio>
@@ -196,6 +204,7 @@
                 <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
                 <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
             </div>
+            <!-- زر الانتقال: سهم وقلب (سيشغل الموسيقى مع أول ضغطة) -->
             <div class="nav-icon" onclick="nextPage(2)">
                 <span>←</span>
                 <span>🤍</span>
@@ -273,7 +282,6 @@
                     console.log("الموسيقى تعمل بنجاح!");
                 }).catch(error => {
                     console.error("فشل تشغيل الصوت: ", error);
-                    alert("برجاء التأكد من رفع ملف 'our-song.mp3' في نفس الفولدر الرئيسي على جيتهاب.");
                 });
             }
 
@@ -312,3 +320,4 @@
 
 </body>
 </html>
+`
