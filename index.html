@@ -7,130 +7,436 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
         
-        * { box-sizing: border-box; }
+        * {
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Tajawal', sans-serif;
             background: linear-gradient(135deg, #ffe5ec 0%, #ffb3c6 100%);
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            min-height: 100vh; overflow-x: hidden; position: relative;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        .progress-container { position: fixed; top: 0; left: 0; width: 100%; height: 6px; background: #f0f0f0; z-index: 100; }
-        .progress-bar { height: 100%; width: 0%; background: #d90429; transition: width 0.6s ease; }
+        /* شريط التقدم فوق */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: #f0f0f0;
+            z-index: 100;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%; /* بيبدأ من صفر عشان شاشة الترحيب */
+            background: #d90429;
+            transition: width 0.6s ease;
+        }
 
         .container {
-            max-width: 550px; width: 90%; background: rgba(255, 255, 255, 0.96);
-            margin: 20px auto; padding: 30px; border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); text-align: center;
-            z-index: 2; position: relative; min-height: 400px;
+            max-width: 550px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.96);
+            margin: 20px auto;
+            padding: 30px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            text-align: center;
+            z-index: 2;
+            position: relative;
+            min-height: 400px;
         }
 
-        .page { display: none; opacity: 0; transition: opacity 0.6s ease; }
-        .page.active { display: block; opacity: 1; }
+        /* التحكم في الصفحات - أنيميشن */
+        .page {
+            display: none;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
 
-        .message { color: #2b2d42; font-size: 1.25rem; line-height: 1.8; margin-bottom: 25px; white-space: pre-line; font-weight: 500; margin-top: 20px; }
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-        .gallery { display: grid; grid-template-columns: 1fr; gap: 15px; margin-top: 20px; margin-bottom: 25px; }
-        .gallery.two-images { grid-template-columns: 1fr 1fr; }
-        .gallery img { width: 100%; height: 280px; object-fit: cover; border-radius: 18px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); }
+        .message {
+            color: #2b2d42;
+            font-size: 1.25rem;
+            line-height: 1.8;
+            margin-bottom: 25px;
+            white-space: pre-line;
+            font-weight: 500;
+            margin-top: 20px;
+        }
 
-        .btn-container { display: flex; justify-content: center; gap: 15px; align-items: center; }
-        .btn { background: #d90429; color: white; border: none; padding: 12px 30px; font-size: 1.1rem; font-family: 'Tajawal', sans-serif; font-weight: bold; border-radius: 50px; cursor: pointer; transition: all 0.3s ease; }
-        .btn-prev { background: #8d99ae; }
+        /* ألبوم الصور */
+        .gallery {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-top: 20px;
+            margin-bottom: 25px;
+        }
 
-        .nav-icon { font-size: 2.5rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; color: #d90429; transition: transform 0.3s ease; margin: 20px auto 0; }
-        
-        /* تصميم صفحة الترحيب */
-        #welcomePage { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 400px; }
-        .tap-btn { font-size: 3rem; cursor: pointer; margin-bottom: 10px; animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+        .gallery.two-images {
+            grid-template-columns: 1fr 1fr;
+        }
 
-        .heart { position: absolute; color: #ff4d6d; font-size: 20px; animation: fall linear infinite; z-index: 1; }
-        @keyframes fall { 0% { transform: translateY(-10vh); opacity: 1; } 100% { transform: translateY(110vh); opacity: 0; } }
+        .gallery img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        /* الأزرار والتحكم */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            background: #d90429;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+        }
+
+        .btn:hover {
+            background: #ef233c;
+            transform: translateY(-2px);
+        }
+
+        .btn-prev {
+            background: #8d99ae;
+            box-shadow: 0 5px 15px rgba(141, 153, 174, 0.3);
+        }
+
+        .btn-prev:hover {
+            background: #adb5bd;
+        }
+
+        /* تنسيق السهم والقلب كزر انتقال */
+        .nav-icon {
+            font-size: 2.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #d90429;
+            transition: transform 0.3s ease;
+            margin: 20px auto 0;
+            filter: drop-shadow(0 0 5px rgba(217, 4, 41, 0.5));
+        }
+
+        .nav-icon:hover {
+            transform: scale(1.1) translateX(-5px);
+        }
+
+        /* تصميم شاشة الترحيب الأولى */
+        #welcomePage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 350px;
+        }
+
+        .tap-btn {
+            font-size: 4.5rem;
+            cursor: pointer;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 10px rgba(217, 4, 41, 0.3));
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .welcome-text {
+            font-size: 1.3rem;
+            color: #2b2d42;
+            font-weight: bold;
+        }
+
+        /* ===== تصميم نافذة البوب أب للصورة الأخيرة ===== */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .popup-overlay.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .popup-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 80%;
+            transform: scale(0.7);
+            transition: transform 0.4s ease;
+        }
+
+        .popup-overlay.show .popup-content {
+            transform: scale(1);
+        }
+
+        .popup-content img {
+            width: 100%;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .close-popup {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5rem;
+            color: #fff;
+            cursor: pointer;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
+            transition: transform 0.3s inherit;
+        }
+
+        .close-popup:hover {
+            transform: translateX(-50%) scale(1.1);
+        }
+
+        /* قلوب الخلفية المتساقطة */
+        .heart {
+            position: absolute;
+            color: #ff4d6d;
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 1;
+            bottom: -20px;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop preload="auto"><source src="our-song.mp3" type="audio/mpeg"></audio>
-    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="our-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
 
     <div class="container" id="container">
-        <!-- صفحة الترحيب -->
+        
         <div class="page active" id="welcomePage">
             <div class="tap-btn" onclick="startApp()">❤️</div>
-            <p>Tap to open</p>
+            <div class="welcome-text">Tap to open</div>
         </div>
 
-        <!-- الجزء الأول -->
         <div class="page" id="page1">
-            <div class="message">وحشتيني اوي و وحشني كل حاجه عشتها معاكي.. وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.</div>
+            <div class="message">
+                وحشتيني اوي و وحشني كل حاجه عشتها معاكي..
+                وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.
+            </div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
                 <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
             </div>
-            <div class="nav-icon" onclick="nextPage(2)"><span>←</span><span>🤍</span></div>
+            <div class="nav-icon" onclick="nextPage(2)">
+                <span>←</span>
+                <span>🤍</span>
+            </div>
         </div>
 
-        <!-- الجزء الثاني -->
         <div class="page" id="page2">
-            <div class="message">عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده. مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني.. عالاقل اطلع قد كل الوعود اللي اديتهالك.</div>
+            <div class="message">
+                عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.
+
+                مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
+                عالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا.
+            </div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
                 <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
             </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(1)">رجوع</button>
-                <div class="nav-icon" onclick="nextPage(3)" style="margin: 0;"><span>←</span><span>🤍</span></div>
+                <div class="nav-icon" onclick="nextPage(3)" style="margin: 0;">
+                    <span>←</span>
+                    <span>🤍</span>
+                </div>
             </div>
         </div>
 
-        <!-- الجزء الثالث -->
         <div class="page" id="page3">
-            <div class="message">لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..</div>
-            <div class="gallery"><img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px; margin: 0 auto;"></div>
+            <div class="message">
+                لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
+            </div>
+            <div class="gallery">
+                <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px; margin: 0 auto;">
+            </div>
             <div class="btn-container">
                 <button class="btn btn-prev" onclick="nextPage(2)">رجوع</button>
-                <div class="nav-icon" onclick="nextPage(4)" style="margin: 0;"><span>←</span><span>🤍</span></div>
+                <div class="nav-icon" onclick="nextPage(4)" style="margin: 0;">
+                    <span>←</span>
+                    <span>🤍</span>
+                </div>
             </div>
         </div>
 
-        <!-- الجزء الرابع -->
         <div class="page" id="page4">
-            <div class="message">وعد مني كل ايامنا هتكون زي اليوم ده و احلى..</div>
+            <div class="message">
+                وعد مني كل ايامنا هتكون زي اليوم ده و احلى..
+            </div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
                 <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
             </div>
-            <div class="btn-container"><button class="btn btn-prev" onclick="nextPage(3)">رجوع</button></div>
+            <div class="btn-container">
+                <button class="btn btn-prev" onclick="nextPage(3)">رجوع</button>
+                <div class="nav-icon" onclick="nextPage(5)" style="margin: 0;">
+                    <span>←</span>
+                    <span>🤍</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page5">
+            <div class="message" style="font-size: 1.5rem; margin-top: 60px; font-weight: bold; color: #d90429;">
+                موافقه؟
+            </div>
+            <div class="btn-container" style="margin-top: 40px;">
+                <button class="btn btn-prev" onclick="nextPage(4)">رجوع</button>
+                <button class="btn" onclick="openPopup()">موافقه؟ ❤️</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="popup-overlay" id="imagePopup" onclick="closePopup()">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <span class="close-popup" onclick="closePopup()">🤍</span>
+            <img src="https://i.ibb.co/PZVYPj6N/716189897-1030720482715349-1905136625468873606-n.jpg" alt="الصورة المفاجأة">
         </div>
     </div>
 
     <script>
-        let currentPage = 0;
+        let currentPage = 0; // البداية من شاشة الترحيب
+        let musicStarted = false;
+
         function startApp() {
-            const audio = document.getElementById('bgMusic');
-            audio.play();
+            if (!musicStarted) {
+                const audio = document.getElementById('bgMusic');
+                audio.src = 'our-song.mp3?v=' + Math.random(); 
+                audio.load();
+                audio.play().then(() => {
+                    musicStarted = true;
+                }).catch(error => {
+                    console.error("فشل تشغيل الصوت: ", error);
+                });
+            }
             document.getElementById('welcomePage').classList.remove('active');
-            nextPage(1);
+            setTimeout(() => {
+                nextPage(1);
+            }, 50);
         }
-        function nextPage(n) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('page' + n).classList.add('active');
-            currentPage = n;
-            document.getElementById('progressBar').style.width = (n * 25) + '%';
+
+        function nextPage(nextPageNumber) {
+            // إخفاء الصفحة الحالية تماماً (بما فيها شاشة الترحيب)
+            const currentActive = document.querySelector('.page.active');
+            if (currentActive) {
+                currentActive.classList.remove('active');
+            }
+
+            const next = document.getElementById(nextPageNumber === 0 ? 'welcomePage' : 'page' + nextPageNumber);
+
+            setTimeout(() => {
+                next.classList.add('active');
+                currentPage = nextPageNumber;
+                updateProgress(nextPageNumber);
+            }, 50); 
         }
+
+        function updateProgress(pageNumber) {
+            // تقسيم شريط التقدم على 5 صفحات بالتساوي
+            const progressPercent = (pageNumber / 5) * 100;
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+        }
+
+        // دالات التحكم في الـ Pop-up
+        function openPopup() {
+            const popup = document.getElementById('imagePopup');
+            popup.style.display = 'flex';
+            setTimeout(() => {
+                popup.classList.add('show');
+            }, 10);
+        }
+
+        function closePopup() {
+            const popup = document.getElementById('imagePopup');
+            popup.classList.remove('show');
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 400); // متناسق مع وقت الأنيميشن
+        }
+
         function createHeart() {
             const heart = document.createElement('div');
-            heart.classList.add('heart'); heart.innerHTML = '❤️';
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
             heart.style.left = Math.random() * 100 + 'vw';
             heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
             document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 5000);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
         }
         setInterval(createHeart, 300);
     </script>
+
 </body>
 </html>
