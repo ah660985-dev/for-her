@@ -38,7 +38,7 @@
 
         .progress-bar {
             height: 100%;
-            width: 0%; /* بيبدأ من صفر عشان شاشة الترحيب */
+            width: 0%; 
             background: #d90429;
             transition: width 0.6s ease;
         }
@@ -79,6 +79,21 @@
             white-space: pre-line;
             font-weight: 500;
             margin-top: 20px;
+            min-height: 60px; /* ثبات الارتفاع عشان الصفحة متهزش أثناء الكتابة */
+        }
+
+        /* تأثير المؤشر الوامض للكتابة الحية */
+        .message::after {
+            content: '|';
+            animation: blink 0.7s infinite;
+            color: #d90429;
+            font-weight: bold;
+            margin-right: 2px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         /* ألبوم الصور */
@@ -185,7 +200,7 @@
             font-weight: bold;
         }
 
-        /* ===== تصميم نافذة البوب أب للصورة الأخيرة ===== */
+        /* نافذة البوب أب للصورة الأخيرة */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -260,26 +275,27 @@
 </head>
 <body>
 
+    <!-- عنصر الصوت -->
     <audio id="bgMusic" loop preload="auto">
         <source src="our-song.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- شريط التقدم -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar"></div>
     </div>
 
     <div class="container" id="container">
         
+        <!-- ================= شاشة الترحيب (البداية) ================= -->
         <div class="page active" id="welcomePage">
             <div class="tap-btn" onclick="startApp()">❤️</div>
             <div class="welcome-text">Tap to open</div>
         </div>
 
+        <!-- ================= الجزء الأول (صفحة 1) ================= -->
         <div class="page" id="page1">
-            <div class="message">
-                وحشتيني اوي و وحشني كل حاجه عشتها معاكي..
-                وحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا.
-            </div>
+            <div class="message" data-text="وحشتيني اوي و وحشني كل حاجه عشتها معاكي..\nوحشني اسمع ضحكتك واحنا قاعدين سوا و وحشتني صورنا."></div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/7N6Kbh9R/715411908-2227611328064754-4078195384724115324-n.jpg" alt="ذكرى 1">
                 <img src="https://i.ibb.co/4RhGCnLy/718293896-2907261549627856-1239871501085989126-n.jpg" alt="ذكرى 2">
@@ -290,13 +306,9 @@
             </div>
         </div>
 
+        <!-- ================= الجزء الثاني (صفحة 2) ================= -->
         <div class="page" id="page2">
-            <div class="message">
-                عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.
-
-                مستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..
-                عالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا.
-            </div>
+            <div class="message" data-text="عارف اني اذيتك و ضايقتك كتير بس والله كل ده مكنش بقصد اننا نوصل لكل ده.\n\nمستعد اقعد احاول طوول العمر عشان عالاقل تسامحيني..\nعالاقل اطلع قد كل الوعود اللي اديتهالك و الحلفان اللي حلفناه سوا."></div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/Zp7pj7Nd/714747770-1497350678549388-2163441048510963018-n.jpg" alt="ذكرى 3">
                 <img src="https://i.ibb.co/rKDCWG7q/718211586-2077854006947665-8997185266847109259-n.jpg" alt="ذكرى 4">
@@ -310,10 +322,9 @@
             </div>
         </div>
 
+        <!-- ================= الجزء الثالث (صفحة 3) ================= -->
         <div class="page" id="page3">
-            <div class="message">
-                لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي..
-            </div>
+            <div class="message" data-text="لو بس تديني فرصه احاول اصالح روضا اللي حبتها زمان دي.."></div>
             <div class="gallery">
                 <img src="https://i.ibb.co/0y8vGg19/714343120-1698858014646113-8510909728694017626-n.jpg" alt="ذكرى 5" style="max-height: 350px; margin: 0 auto;">
             </div>
@@ -326,10 +337,9 @@
             </div>
         </div>
 
+        <!-- ================= الجزء الرابع (صفحة 4) ================= -->
         <div class="page" id="page4">
-            <div class="message">
-                وعد مني كل ايامنا هتكون زي اليوم ده و احلى..
-            </div>
+            <div class="message" data-text="وعد مني كل ايامنا هتكون زي اليوم ده و احلى.."></div>
             <div class="gallery two-images">
                 <img src="https://i.ibb.co/WWVTm0K8/714670291-970453862275375-3879784803809794898-n.jpg" alt="ذكرى 6">
                 <img src="https://i.ibb.co/gbHqG19N/717264379-1728782014996139-8864192178594101865-n.jpg" alt="ذكرى 7">
@@ -343,10 +353,9 @@
             </div>
         </div>
 
+        <!-- ================= الجزء الخامس والأخير (موافقة) ================= -->
         <div class="page" id="page5">
-            <div class="message" style="font-size: 1.5rem; margin-top: 60px; font-weight: bold; color: #d90429;">
-                موافقه؟
-            </div>
+            <div class="message" data-text="موافقه؟" style="font-size: 1.5rem; margin-top: 60px; font-weight: bold; color: #d90429;"></div>
             <div class="btn-container" style="margin-top: 40px;">
                 <button class="btn btn-prev" onclick="nextPage(4)">رجوع</button>
                 <button class="btn" onclick="openPopup()">موافقه؟ ❤️</button>
@@ -355,6 +364,7 @@
 
     </div>
 
+    <!-- النافذة المنبثقة (Pop-up) للاحتفاظ بالصورة الأخيرة -->
     <div class="popup-overlay" id="imagePopup" onclick="closePopup()">
         <div class="popup-content" onclick="event.stopPropagation()">
             <span class="close-popup" onclick="closePopup()">🤍</span>
@@ -363,8 +373,9 @@
     </div>
 
     <script>
-        let currentPage = 0; // البداية من شاشة الترحيب
+        let currentPage = 0; 
         let musicStarted = false;
+        let typingTimeout; // لتخزين التايم أوت عشان لو قلب بسرعة الكود ميتلغبطش
 
         function startApp() {
             if (!musicStarted) {
@@ -384,7 +395,6 @@
         }
 
         function nextPage(nextPageNumber) {
-            // إخفاء الصفحة الحالية تماماً (بما فيها شاشة الترحيب)
             const currentActive = document.querySelector('.page.active');
             if (currentActive) {
                 currentActive.classList.remove('active');
@@ -396,16 +406,42 @@
                 next.classList.add('active');
                 currentPage = nextPageNumber;
                 updateProgress(nextPageNumber);
+                
+                // تشغيل تأثير الكتابة الحية للصفحة الجديدة لو فيها نص
+                if(nextPageNumber > 0) {
+                    const messageElement = next.querySelector('.message');
+                    if(messageElement) {
+                        typeWriter(messageElement);
+                    }
+                }
             }, 50); 
         }
 
+        // دالة الكتابة الحية الذكية
+        function typeWriter(element) {
+            clearTimeout(typingTimeout); // إيقاف أي كتابة قديمة فوراً
+            const rawText = element.getAttribute('data-text');
+            // تحويل الـ \n لنزول سطر حقيقي
+            const text = rawText.replace(/\\n/g, '\n'); 
+            
+            element.textContent = '';
+            let index = 0;
+
+            function type() {
+                if (index < text.length) {
+                    element.textContent += text.charAt(index);
+                    index++;
+                    typingTimeout = setTimeout(type, 40); // السرعة بالملي ثانية لكل حرف
+                }
+            }
+            type();
+        }
+
         function updateProgress(pageNumber) {
-            // تقسيم شريط التقدم على 5 صفحات بالتساوي
             const progressPercent = (pageNumber / 5) * 100;
             document.getElementById('progressBar').style.width = progressPercent + '%';
         }
 
-        // دالات التحكم في الـ Pop-up
         function openPopup() {
             const popup = document.getElementById('imagePopup');
             popup.style.display = 'flex';
@@ -419,7 +455,7 @@
             popup.classList.remove('show');
             setTimeout(() => {
                 popup.style.display = 'none';
-            }, 400); // متناسق مع وقت الأنيميشن
+            }, 400); 
         }
 
         function createHeart() {
